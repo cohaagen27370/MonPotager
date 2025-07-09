@@ -1,0 +1,14 @@
+.idea
+.vscode
+
+src/bin
+src/obj
+test/bin
+test/obj
+bruno
+src/token.json
+wwwroot/client_secret_553213029721-1a8hbkfguc6phvl8f9u0dhlckgticq8q.apps.googleusercontent.com.json
+wwwroot/client_secret_553213029721-u69tgjf6omiuijk4fvvon0oacqc8amet.apps.googleusercontent.com.json
+wwwroot/x509-cert-public.pem
+wwwroot/x509-cert.pem
+wwwroot/logs

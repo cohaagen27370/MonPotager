@@ -1,0 +1,1 @@
+dotnet publish src/api.csproj -f net8.0 -r linux-x64 --self-contained false -p:UseAppHost=true
