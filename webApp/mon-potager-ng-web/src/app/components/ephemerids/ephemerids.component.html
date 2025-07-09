@@ -1,0 +1,43 @@
+<h4 class="flex align-items-start justify-content-center flex-wrap column-gap-0">{{ephemerids()?.currentDate }}</h4>
+<hr class="flex align-items-start justify-content-center px-1" />
+<h5 class="flex align-items-start justify-content-center font-bold">{{
+  getSeasonsName(ephemerids()?.sunData?.currentSeason)
+  }}</h5>
+<h5 class="flex align-items-start justify-content-center">{{ephemerids()?.saintName
+  }}&nbsp;{{ephemerids()?.moonPhase?.emoji}}</h5>
+<p class="text-center font-italic px-3">{{ephemerids()?.saying }}</p>
+<hr class="flex align-items-start justify-content-center px-1" />
+<h4 class="flex align-items-start justify-content-center">Soleil</h4>
+<h5 class="flex align-items-start justify-content-center"><i class="pi pi-arrow-circle-up"></i>&nbsp;&nbsp;
+  {{ephemerids()?.sunData?.sunRise }}&nbsp;&nbsp;&nbsp;&nbsp;<i
+    class="pi pi-arrow-circle-down"></i>&nbsp;&nbsp;{{ephemerids()?.sunData?.sunSet
+  }}
+</h5>
+<h5 class="flex align-items-start justify-content-center">durée d'ensoleillement : {{ ephemerids()?.sunData?.sunDuration
+  }} ({{ ephemerids()?.sunData?.deltaDuration | extraMinute}})</h5>
+@if(ephemerids()?.station) {
+<hr class="flex align-items-start justify-content-center px-1" />
+
+@if (ephemerids()!.station?.inseeCode) {
+  <div class="flex justify-content-center">
+    <lcdj-meteo />
+  </div>
+}
+
+<hr class="flex align-items-start justify-content-center px-1" />
+
+<h4 class="flex align-items-start justify-content-center flex-wrap">Station météo la plus proche :
+  {{ephemerids()?.station?.stationName }} ({{ ephemerids()?.station?.codeDepartment }})</h4>
+
+<!-- @if(ephemerids() && ephemerids()!.station && ephemerids()!.station!.climatComment != null) {
+<p-panel [header]="'Climat : ' + toString(ephemerids()!.station!.climatName)" [toggleable]="true" [collapsed]="true">
+  <p class="m-0">
+    {{ephemerids()!.station!.climatComment}}
+  </p>
+</p-panel>
+}
+
+<div class="flex align-items-start justify-content-center">
+  <img alt="climat" width="100" lcdj-image [reference]="ephemerids()?.station?.climatImage" />
+</div> -->
+}

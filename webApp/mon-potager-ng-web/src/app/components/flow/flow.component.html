@@ -1,0 +1,19 @@
+<div categoryColor [category]="model().category?.id"
+  class="flex flex-row justify-content-between shadow-2 mx-0 sm:mx-2 md:mx-2 border-green-300 vegetables"
+  style="border-radius: 10px !important;">
+  <img alt="product" lcdj-image [reference]="model().image" width="100" height="100" class="border-round-left"
+    style="border-top-left-radius : 10px !important; border-bottom-left-radius : 10px !important;" />
+  <div class="flex flex-grow-1 flex-column justify-content-left align-items-top ml-3 text-green-900">
+    <span class="font-bold text-lg">{{ model().name }} <small>{{model().variety}}</small>
+    </span>
+    <span class="text-xs font-semibold text-primary-500">{{ model().startStage?.label }}</span>
+    <span class="text-sm font-semibold">{{ model().startDate | dateCustom: 'EEE dd MMMM yy' }}</span>
+    <span class="text-xs">Récolte estimée</span>
+    <span class="text-sm font-bold text-primary-700 text-left">{{ model().expectedHarvestDate | dateCustom: 'EEE dd MMMM
+      yy'
+      }}</span>
+  </div>
+  <img alt="stage" lcdj-image [reference]="model().startStage?.image" width="100" height="100"
+    class="hidden md:flex lg:flex xl:flex"
+    style="border-top-right-radius : 10px !important; border-bottom-right-radius : 10px !important;" />
+</div>

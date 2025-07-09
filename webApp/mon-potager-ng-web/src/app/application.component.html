@@ -1,0 +1,86 @@
+<div class="flex flex-column h-screen">
+
+  <header class="w-full shadow-6">
+    <app-tool-bar (onShowMisc)="showEphemeridsDrawer = true" />
+  </header>
+  <nav class="sticky top-0 w-full bg-white z-5">
+    <p-tabs [value]="globalStore.selectedMenu()" (valueChange)="setValue($event)" Class="font-typoGardenDemo"
+      value="messages">
+      <p-tablist>
+
+        @if (globalStore.isAuthenticated()) {
+        @if(globalStore.isAdmin()) {
+        @for(tab of navConnectedAsAdmin; track tab.id){
+        <p-tab [value]="tab.routerLink" [routerLink]="tab.routerLink">
+          <fa-icon [icon]="tab.faIcon"></fa-icon>
+          <span class="hidden md:flex lg:flex xl:flex">{{ tab.label }}</span>
+        </p-tab>
+        }
+        }
+        @else
+        {
+        @for(tab of nav; track tab.id){
+        <p-tab [value]="tab.routerLink" [routerLink]="tab.routerLink">
+          <fa-icon [icon]="tab.faIcon"></fa-icon>
+          <span class="hidden md:flex lg:flex xl:flex">{{ tab.label }}</span>
+        </p-tab>
+        }
+        }
+        }
+        @else {
+        @for(tab of navNotConnected; track tab.id){
+        <p-tab [value]="tab.routerLink" [routerLink]="tab.routerLink">
+          <fa-icon [icon]="tab.faIcon"></fa-icon>
+          <span class="hidden md:flex lg:flex xl:flex">{{ tab.label }}</span>
+        </p-tab>
+        }
+        }
+
+
+      </p-tablist>
+    </p-tabs>
+  </nav>
+
+  <div class="flex flex-row">
+    @if (globalStore.isAuthenticated()) {
+    <aside lcdj-ephemerids [isDrawer]="false"></aside>
+    }
+    <main class="w-full flex flex-grow-1">
+      <article class="w-full">
+        <container>
+          <router-outlet class="w-full" />
+        </container>
+      </article>
+    </main>
+  </div>
+
+  <p-drawer [(visible)]="showEphemeridsDrawer" header="Ephémérides">
+    <div lcdj-ephemerids [isDrawer]="true"></div>
+  </p-drawer>
+
+  <p-toast position="bottom-center" key="confirm" (onClose)="onCloseDisclaimer()" [baseZIndex]="5000"
+    styleClass="w-full">
+    <ng-template let-message pTemplate="message">
+      <div class="flex flex-column align-items-start" style="flex: 1">
+        <div class="flex align-items-center gap-2">
+          <span class="font-bold text-900">
+            Nous nous soucions de votre vie privée.
+          </span>
+        </div>
+        <div class="font-medium text-lg my-3 text-900">
+          <p>
+            Ce site ne créé aucun cookie de traçage ou de suivi dans votre navigateur.
+            Les cookies créés servent uniquement au bon fonctionnement du site et ne contiennent aucune donnée
+            personnelles.
+          </p>
+        </div>
+        <p-button size="small" label="J'ai compris" (onClick)="onCloseDisclaimer()" />
+      </div>
+    </ng-template>
+  </p-toast>
+
+  <footer class="flex align-items-center justify-content-center" style="position: 'absolute'; bottom: 0">
+    &nbsp;
+  </footer>
+
+</div>

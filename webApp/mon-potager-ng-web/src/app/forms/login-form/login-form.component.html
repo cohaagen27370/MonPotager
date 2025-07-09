@@ -1,0 +1,61 @@
+<h4 class="font-bold hidden sm:flex">Se connecter</h4>
+<div class="flex justify-content-center md:hidden xl:hidden lg:hidden"><h4 class="font-bold text-xl">Se connecter</h4></div>
+
+<form [formGroup]="formLogin" (submit)="login()">
+  <div class="field">
+    <p-iftalabel fluid>
+      <label for="email">Email</label>
+      <input pInputText fluid autocomplete="off" id="email" type="email" formControlName="formEmail">
+      @if(formEmail.dirty) {
+      @if(formEmail.hasError('required')) {
+      <small class="text-red-500">
+        Email obligatoire.
+      </small>
+      }
+      @if(formEmail.hasError('email')) {
+      <small class="text-red-500">
+        Entrer un email valide.
+      </small>
+      }
+      }
+    </p-iftalabel>
+  </div>
+  <div class="field">
+    <p-iftalabel fluid>
+      <label for="password">Mot de passe</label>
+      <input pInputText fluid autocomplete="off" id="password" maxlength="15" type="password"
+        formControlName="formPassword">
+      @if(formPassword.dirty) {
+      @if(formPassword.hasError('required')) {
+      <small class="text-red-500">
+        Mot de passe obligatoire.
+      </small>
+      }
+      @if(formPassword.hasError('maxlength')) {
+      <small class="text-red-500">
+        Au maximum 15 caractères
+      </small>
+      }
+      @if(formPassword.hasError('minlength')) {
+      <small class="text-red-500">
+        Au moins 3 caractères
+      </small>
+      }
+      }
+    </p-iftalabel>
+    <p-button icon="pi pi-trash" severity="danger" label="Mot de passe oublié" (onClick)="resetPassword()"
+    variant="text" />
+  </div>
+  @if(showLoginError) {
+  <div class="field">
+    <p-message severity="error" text="Email ou mot de passe erroné" />
+  </div>
+  }
+  @if(showConnectionError) {
+  <div class="field">
+    <p-message severity="error" text="Aucune connexion internet" />
+  </div>
+  }
+  <p-button type="submit" [loading]="isLoading" [disabled]="!formLogin.dirty || (formLogin.dirty && formLogin.invalid)" label="Valider"
+    iconPos='left' icon="pi pi-send" severity="primary" styleClass="w-full md:w-5" />
+</form>

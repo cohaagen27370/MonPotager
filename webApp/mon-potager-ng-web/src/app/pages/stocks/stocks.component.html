@@ -1,0 +1,81 @@
+<br />
+<lcdj-loading-panel [visible]="store.isLoading()"></lcdj-loading-panel>
+
+@if (store.hasData()) {
+@if(isDesktop()) {
+<p-table [value]="store.stocks()" (onRowSelect)="selectRow($event)" dataKey="id" selectionMode="single">
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <span class="text-xl font-bold">Stocks en ma possession</span>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th id="product_image"></th>
+      <th id="product_name">Nom</th>
+      <th id="product_variety">Variété</th>
+      <th id="quantity">Quantité restante</th>
+      <th id="expiration_date">Date d'expiration</th>
+      <th>&nbsp;</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr [pSelectableRow]="product">
+      <td><img alt="product" lcdj-image [reference]="product.varietyImage" width="75" /></td>
+      <td class="font-bold">{{ product.productName }}</td>
+      <td class="font-bold">{{ product.productVariety }}</td>
+      <td class="font-bold font-3xl">{{ product.seedQuantity }}</td>
+      <td>{{ product.expirationDate | date:" dd/MM/yyyy"}}</td>
+      <td>
+        <p-button icon="pi pi-info" severity="secondary" variant="text" size="large"
+          (onClick)="viewDetails(product.productId)" />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+}
+@else {
+<div class="grid w-full">
+  @for(stock of store.stocks(); track stock.id) {
+  <div class="lg:col-12 xl:col-6 sm:col-12 md:col-12 col-12">
+    <app-stock [model]="stock" (onClick)="updateStock(stock)" />
+  </div>
+  }
+</div>
+}
+}
+@else {
+<div class="flex justify-content-center w-full">
+  <div class="flex flex-column justify-content-center align-items-center w-6 max-w-20rem text-center">
+    <img src="assets/actions/nothing.jpg" class="img-border" alt="loading" class="w-full my-5" />
+    <h3>Aucun stock</h3>
+    <a routerLink="/app/catalog"><small>Ajoutez en depuis la plantothèque</small></a>
+  </div>
+</div>
+}
+
+<p-drawer [(visible)]="showUpdate" header="Modifier mon stock" styleClass="sm:w-full md:w-6 lg:w-6 xl:w-6">
+  <lcdj-update-package [stockId]="store.selectedStock()?.id!" (onChange)="addFlow()" />
+</p-drawer>
+
+
+@if(store.pageCount() > 1) {
+<div class="flex justify-content-center">
+  <p-paginator [first]="store.pageNumber() * store.pageSize()" [rows]="store.pageSize()"
+    [totalRecords]="store.totalCount()" (onPageChange)="onPageChange($event)" [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} - {last} sur {totalRecords}" [showPageLinks]="false"
+    [showFirstLastIcon]="true"></p-paginator>
+</div>
+}
+
+<p-toast key="addCulture" [baseZIndex]="5000" [life]="4000">
+  <ng-template let-message pTemplate="message">
+    <div class="flex justify-content-center w-full">
+      <div class="flex flex-column justify-content-center align-items-center w-6 max-w-20rem text-center">
+        <img src="assets/actions/toSeed.jpg" class="img-border" alt="loading" class="w-full my-5" />
+        <h3>La culture ou préparation a été ajoutée !</h3>
+        <a routerLink="/app/inprogress"><small>Aller voir mon ajout</small></a>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>

@@ -1,0 +1,27 @@
+@if(store.hasDetails()) {
+<p-timeline [value]="store.details()?.events!" align="alternate">
+  <ng-template #opposite let-event>
+    <span class="text-xl text-blue-900 dark:text-surface-400">{{ event.date | date:'dd/MM/yyyy'
+      }}</span>
+  </ng-template>
+  <ng-template #marker let-event>
+    <fa-icon [icon]="faCarrot" size="lg"></fa-icon>
+  </ng-template>
+  <ng-template #content let-event>
+    <div class="flex flex-column">
+      <span class="font-bold text-md capitalize">{{ event.stage.label }}</span>
+      <div class="flex flex-row">
+        <span>&nbsp;</span>
+        <img alt="stage" lcdj-image class="shadow-2 flex-grow-1" [reference]="event.stage.image" width="100" />
+      </div>
+    </div>
+  </ng-template>
+</p-timeline>
+}
+<br />
+
+<div class="flex flex-column justify-content-center align-items-center">
+  <hr class=" w-full" />
+  <p-button label="Ajouter une nouvelle étape" icon="pi pi-calendar-plus" iconPos="top" class="flex-grow-1"
+    [raised]="true" (onClick)="addNewStep()" />
+</div>

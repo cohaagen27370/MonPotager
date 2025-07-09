@@ -1,0 +1,134 @@
+<lcdj-loading-panel [visible]="store.isLoading()"></lcdj-loading-panel>
+
+<p-inputgroup class="hidden lg:flex xl:flex">
+  <p-iftalabel>
+    <input type="text" class="w-full" fluid pInputText [(ngModel)]="selectedProductName" />
+    <label for="float-label">Plantes, fruits ou préparations</label>
+  </p-iftalabel>
+  <p-button pRipple [loading]="store.isLoading()" icon="pi pi-search" severity="primary" label="Chercher"
+    (click)="searchProduct()" />
+</p-inputgroup>
+
+<p-inputgroup class="sm:visible md:visible lg:hidden xl:hidden">
+  <p-iftalabel>
+    <input type="text" class="w-full" fluid pInputText [(ngModel)]="selectedProductName" />
+    <label for="float-label">Plantes, fruits ou préparations</label>
+  </p-iftalabel>
+  <p-button class="sm:visible md:visible lg:hidden xl:hidden" pRipple [loading]="store.isLoading()" icon="pi pi-search"
+    severity="primary" (click)="searchProduct()" />
+</p-inputgroup>
+
+<p-button [loading]="store.isLoading()" icon="pi pi-trash" severity="secondary" label="Réinitialiser la recherche"
+  variant="text" (click)="reinitProduct()" />
+
+<br />
+<p-blockUI [blocked]="store.isLoading()" />
+
+@if( store.hasSearchedData() && !store.hasData()) {
+@if(isDesktop()) {
+<p-table [value]="store.productsMostSearched()" dataKey="id" (onRowSelect)="selectRow($event)" selectionMode="single">
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <span class="text-xl font-bold">Cultures les plus recherchées</span>
+    </div>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr [pSelectableRow]="product">
+      <td><img alt="product" class="img-border" [src]="getProductImage(product)" width="75" /></td>
+      <td class="font-bold">{{ product.name }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+}
+@else {
+<div class="grid">
+  @for(product of store.productsMostSearched(); track product.name) {
+  <div class="lg:col-6 xl:col-6 sm:col-6 md:col-12 col-12">
+    <product-search [product]="product" (onClick)="viewDetails($event)"
+      (onAdd)="selectedProduct = product;showAddPackage = true"></product-search>
+  </div>
+  }
+</div>
+}
+}
+
+@if(store.hasData()) {
+@if(isDesktop()) {
+<p-table [value]="store.products()!.datas!" dataKey="id">
+  <ng-template #header>
+    <tr>
+      <th id="product_image"></th>
+      <th id="product_name">Nom</th>
+      <th id="product_name">
+        Variété</th>
+      <th id="add_to_stock"></th>
+      <th id="go_detail"></th>
+      <th id="go_calendar"></th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr categoryColor>
+      <td><img alt="product" lcdj-image [reference]="product.image" width="75" /></td>
+      <td class="font-bold">{{ product.name }}</td>
+      <td class="font-bold">{{ product.variety }}</td>
+      <td>
+        @if (globalStore.isAuthenticated()) {
+        <p-button icon="pi pi-cart-arrow-down" [rounded]="true" [raised]="true" label="Ajouter à mon stock"
+          (onClick)="selectedProduct = product;showAddPackage = true" />
+        }
+      </td>
+      <td><p-button icon="pi pi-info-circle" [rounded]="true" [text]="true" [raised]="true" severity="info"
+          label="Détail" (onClick)="viewDetailsProduct(product.id)" /></td>
+      <td><p-button icon="pi pi-calendar" [rounded]="true" [text]="true" [raised]="true" severity="success"
+            label="Calendrier des semis" (onClick)="showCalendar(product.id)" />
+          </td>
+    </tr>
+  </ng-template>
+</p-table>
+}
+@else {
+<div class="grid">
+  @for(product of store.products()?.datas; track product.id) {
+  <div class="lg:col-6 xl:col-6 sm:col-12 md:col-6 col-12">
+    <product-search [product]="product" (onClick)="viewDetails($event)"
+      (onAdd)="selectedProduct = product;showAddPackage = true"
+      (onDetail)="viewDetailsProduct($event)" (onCalendar)="showCalendar($event)"></product-search>
+  </div>
+  }
+</div>
+}
+
+@if(store.paginationProducts().pageCount) {
+  <div class="flex justify-content-center">
+    <p-paginator (onPageChange)="onPageChange($event)"
+      [first]="store.paginationProducts().pageNumber * store.paginationProducts().pageSize"
+      [rows]="store.paginationProducts().pageSize" [showFirstLastIcon]="true"
+      [totalRecords]="store.paginationProducts().totalCount" [showCurrentPageReport]="true"></p-paginator>
+  </div>
+
+  }
+
+}
+
+<p-drawer [(visible)]="showAddPackage" header="Ajouter un paquet" styleClass="sm:w-full md:w-6 lg:w-6 xl:w-6">
+  <lcdj-add-package [product]="selectedProduct" (onAdd)="AddPackage($event)" />
+</p-drawer>
+
+@if(store.selectedProductId()) {
+  <p-dialog header="Calendrier des semis possibles pour cette culture" [modal]="true" [(visible)]="isShowCalendar" (onHide)="isShowCalendar = false" styleClass="w-10">
+    <lcdj-calendar [productId]="store.selectedProductId()"/>
+  </p-dialog>
+}
+
+
+<p-toast key="addStock" [baseZIndex]="5000" [life]="4000">
+  <ng-template let-message pTemplate="message">
+    <div class="flex justify-content-center w-full">
+      <div class="flex flex-column justify-content-center align-items-center w-6 max-w-20rem text-center">
+        <img src="assets/actions/addingSeed.jpg" class="img-border" alt="loading" class="w-full my-5" />
+        <h3>Les produits sont ajoutés à votre stock !</h3>
+        <a (click)="gotToStocks()"><small>Aller voir mon ajout</small></a>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>

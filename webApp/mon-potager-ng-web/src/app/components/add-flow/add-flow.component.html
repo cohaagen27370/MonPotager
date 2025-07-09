@@ -1,0 +1,24 @@
+@if(store.possiblesSteps()) {
+
+@for(stage of store.possiblesSteps(); track stage.id) {
+@if(stage.id) {
+<div class="flex mb-2 align-items-center justify-content-left border-radius-10" (click)="stageId = stage.id"
+  [ngClass]="{'shadow-1': stageId != stage.id, 'shadow-5': (stageId == stage.id), 'choose-item':(stageId == stage.id)}">
+  <p-radiobutton [(ngModel)]="stageId" name="stage" [value]="stage.id" [ngStyle]="{'display':'none'}" />&nbsp;
+  <p-avatar [image]="getImageSource(stage.image)" class="mr-2 img-border" shape="square" size="xlarge" />
+  <div class="flex flex-column">
+    <span class="font-bold text-lg capitalize">{{ stage.label }}</span>
+  </div>
+</div>
+}
+}
+
+}
+<br />
+<div class="flex flex-column justify-content-center align-items-center">
+  <p-datepicker id="dateEvent" [maxDate]="now" [(ngModel)]="dateEvent" [inline]="true" />
+  <hr class=" w-full" />
+  <p-button [disabled]="!stageId" label="Ajouter l'étape" icon="pi pi-plus" iconPos="top" class="flex-grow-1"
+    (click)="addNewStep()" />
+  <br />
+</div>

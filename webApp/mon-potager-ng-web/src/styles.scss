@@ -1,0 +1,91 @@
+@font-face {
+  font-family: "CountrysideTwo";
+  src: url('../public/assets/fonts/CountrysideTwo-r9WO.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "TypoGardenDemo";
+  src: url('../public/assets/fonts/GreenDelightWatermelon-4BXL4.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "SegoeUI";
+  src: url('../public/assets/fonts/SegoeUI.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "McBlossoms";
+  src: url('../public/assets/fonts/McBlossoms-Rg7E.ttf') format('truetype');
+}
+
+.font-mcblossoms {
+  font-family: "McBlossoms";
+}
+
+.font-countrySideTwo {
+  font-family: "CountrysideTwo";
+}
+
+.font-typoGardenDemo {
+  font-family: "TypoGardenDemo";
+}
+
+
+html {
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--surface-ground);
+  font-weight: 400;
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+  background: var(--surface-card);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.over {
+  cursor: pointer;
+}
+
+.over:hover {
+  opacity: 0.5;
+  translate: 0px 10px !important;
+}
+
+section {
+  width: 100% !important;
+}
+
+.img-border {
+  border-style: double;
+  border-color: lightgray;
+}
+
+.border-radius-10 {
+  border-radius: 10px !important;
+}
+
+.border-radius-left-10 {
+  border-top-left-radius : 10px !important;
+  border-bottom-left-radius : 10px !important;
+}
+
+@media (max-width: 576px)  {
+  .p-tablist-tab-list {
+    display: flex !important;
+    justify-content: space-around !important;
+  }
+}
+

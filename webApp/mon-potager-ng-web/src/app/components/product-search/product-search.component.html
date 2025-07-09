@@ -1,0 +1,22 @@
+<div class="shadow-2 border-radius-10 flex justify-content-left" categoryColor [category]="product().category?.id">
+  <img alt="product" lcdj-image [reference]="product().image" class="border-radius-left-10" priority placeholder />
+
+  <div class="flex flex-row justify-content-between w-full">
+    <div class="pt-5 pb-5 pl-1 gradient flex flex-column">
+      <span class="text-2xl font-semibold">{{ product().name }}</span>
+      <span class="text-sm font-bold">{{ product().variety }}</span>
+    </div>
+
+    @if(product().variety) {
+    <div class="flex flex-row justify-content-left align-items-center">
+      @if (globalStore.isAuthenticated()) {
+      <p-button icon="pi pi-cart-arrow-down" variant="text" size="large" (onClick)="addToStock()" />
+      }
+      <p-button icon="pi pi-info-circle" severity="secondary" variant="text" size="large" (onClick)="viewDetails()" />
+      <p-button icon="pi pi-calendar" severity="success" variant="text" size="large" (onClick)="viewCalendar()" />
+    </div>
+    }
+  </div>
+  &nbsp;
+
+</div>

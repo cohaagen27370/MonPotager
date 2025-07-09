@@ -1,0 +1,26 @@
+<div class="flex flex-column justify-content-end">
+  <img [src]="contenuDeLimage" width="150" alt="product">
+
+  <input #uploadButtonPicture1 class="form-control" hidden accept="image/jpeg, image/png" type="file" id="imageFile"
+    (change)="envoiFichier($event)" />
+
+  <div>
+    <div class="flex flex-row justify-content-center">
+      <p-button [link]="true" styleClass="text-primary-900" size="small" severity="contrast"
+        [disabled]="chargementEnCours()" title="ajouter une nouvelle photo" (onClick)="uploadButtonPicture1.click()">
+        Charger
+      </p-button>
+      <p-button [link]="true" styleClass="text-primary-50" size="small" [disabled]="chargementEnCours()"
+        title="supprimer la photo" class="ml-1" (onClick)="supprimerImage()">
+        Supprimer
+      </p-button>
+    </div>
+    <br />
+    @if(chargementEnCours())
+    {
+    <div>
+      <p-progressbar [value]="progressionDuChargement" />
+    </div>
+    }
+  </div>
+</div>

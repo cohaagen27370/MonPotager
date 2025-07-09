@@ -1,0 +1,113 @@
+<form [formGroup]="form" (submit)="submit()">
+  <div class="flex flex-row justify-content-between align-items-center">
+    <div class="w-9 mr-3">
+      <div>
+        <p-iftalabel>
+          <input [disabled]="isLoading()" fluid type="text" id="name" pInputText formControlName="name" />
+          <label for="name">Nom</label>
+        </p-iftalabel>
+        @if(form.controls['name'].hasError('required') ) {
+        <p-message severity="error" variant="simple" size="small">Le nom est obligatoire</p-message>
+        }
+      </div>
+      <div class="mt-2">
+        <p-iftalabel>
+          <textarea fluid [disabled]="isLoading()" rows="5" pTextarea id="description"
+            formControlName="description"></textarea>
+          <label for="description">Description</label>
+        </p-iftalabel>
+        @if(form.controls['description'].hasError('required') ) {
+        <p-message severity="error" variant="simple" size="small">La description est obligatoire</p-message>
+        }
+      </div>
+      <div class="mt-2">
+        <p-iftalabel>
+          <textarea fluid [disabled]="isLoading()" rows="5" pTextarea id="descriptionSource"
+            formControlName="descriptionSource"></textarea>
+          <label for="descriptionSource">Source de la description</label>
+        </p-iftalabel>
+        @if(form.controls['descriptionSource'].hasError('required') ) {
+        <p-message severity="error" variant="simple" size="small">La source de description est obligatoire</p-message>
+        }
+      </div>
+
+    </div>
+    @if(isNew){
+    <lcdj-loading-image [referenceInitiale]="form.controls['name'].value"
+      (referenceModifiee)="referencerImage($event)" />
+    }
+    @else {
+    <lcdj-loading-image [referenceInitiale]="form.controls['image'].value"
+      (referenceModifiee)="referencerImage($event)" />
+    }
+  </div>
+  <div class="mt-2">
+    <p-iftalabel>
+      <textarea fluid [disabled]="isLoading()" rows="5" pTextarea id="imageSource"
+        formControlName="imageSource"></textarea>
+      <label for="imageSource">Source de l'image</label>
+    </p-iftalabel>
+    @if(form.controls['imageSource'].hasError('required') ) {
+    <p-message severity="error" variant="simple" size="small">La source de l'image est obligatoire</p-message>
+    }
+  </div>
+  <div class="mt-3">
+    <p-iftalabel>
+      <p-select [disabled]="isLoading()" [options]="categories()" formControlName="categoryId" optionLabel="label"
+        optionValue="id" placeholder="Selectionner une catégorie" class="w-full md:w-56" />
+      <label for="category">Catégorie</label>
+    </p-iftalabel>
+    @if(form.controls['categoryId'].hasError('required') ) {
+    <p-message severity="error" variant="simple" size="small">La catégorie est obligatoire</p-message>
+    }
+  </div>
+  <div class="mt-3 flex flex-row justify-content-left">
+    <p-iftalabel>
+      <p-inputnumber [disabled]="isLoading()" formControlName="germinationMinimalTemperature"
+        inputId="germinationMinimalTemperature" suffix=" ℃" [min]="0" [max]="40" />
+      <label for="germinationMinimalTemperature">Température germination min</label>
+    </p-iftalabel>
+    @if(form.controls['germinationMinimalTemperature'].hasError('required') ) {
+    <p-message severity="error" variant="simple" size="small">La catégorie est obligatoire</p-message>
+    }
+
+    <p-iftalabel class="ml-2">
+      <p-inputnumber [disabled]="isLoading()" formControlName="germinationOptimaleTemperature"
+        inputId="germinationOptimaleTemperature" suffix=" ℃" [min]="0" [max]="40" />
+      <label for="germinationOptimaleTemperature">Température germination optimale</label>
+    </p-iftalabel>
+    <p-iftalabel class="ml-2">
+      <p-inputnumber [disabled]="isLoading()" formControlName="idealGrowingTemperature"
+        inputId="idealGrowingTemperature" suffix=" ℃" [min]="0" [max]="40" />
+      <label for="idealGrowingTemperature">Température croissance optimale</label>
+    </p-iftalabel>
+  </div>
+  <div class="mt-3 flex flex-row justify-content-left">
+    <p-iftalabel>
+      <p-inputnumber [disabled]="isLoading()" formControlName="minimalRisingTime" inputId="minimalRisingTime"
+        suffix=" jour(s)" [min]="0" [max]="40" />
+      <label for="minimalRisingTime">Durée min de levée</label>
+    </p-iftalabel>
+    <p-iftalabel class="ml-2">
+      <p-inputnumber [disabled]="isLoading()" formControlName="maximumRisingTime" inputId="maximumRisingTime"
+        suffix=" jour(s)" [min]="0" [max]="40" />
+      <label for="maximumRisingTime">Durée max de levée</label>
+    </p-iftalabel>
+    <p-iftalabel class="ml-2">
+      <p-inputnumber [disabled]="isLoading()" formControlName="zeroVegetation" inputId="zeroVegetation" suffix=" ℃"
+        [min]="0" [max]="40" />
+      <label for="zeroVegetation">Température de non croissance</label>
+    </p-iftalabel>
+  </div>
+  <div class="mt-3 flex flex-row justify-content-left">
+    <p-iftalabel>
+      <p-inputnumber [disabled]="isLoading()" formControlName="sunshineDuration" inputId="sunshineDuration"
+        suffix=" heures" [min]="4" [max]="24" />
+      <label for="sunshineDuration">Durée du jour minimum</label>
+    </p-iftalabel>
+  </div>
+  <div class="mt-3 flex flex-row justify-content-left">
+    <p-button [loading]="isLoading()" [disabled]="!form.dirty || (form.dirty && !form.valid)" type="submit"
+      label="Enregistrer" icon="pi pi-check" iconPos="left" [raised]="true" />
+  </div>
+</form>

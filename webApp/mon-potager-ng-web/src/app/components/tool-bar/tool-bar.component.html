@@ -1,0 +1,39 @@
+<p-toolbar>
+  <ng-template pTemplate="start">
+    @if (globalStore.isAuthenticated()) {
+    <p-button [rounded]="true" icon="pi pi-list" [text]="true" variant="text"
+      class="sm:visible md:visible lg:hidden xl:hidden" (onClick)="showMisc()" />
+    <img alt="logo" src="assets/LogoMonPotagerTransp.png" width="30" class="hidden lg:flex xl:flex" />}&nbsp;
+    <p class="text-2xl font-bold font-countrySideTwo hidden lg:flex xl:flex">Le Compagnon du Jardinier</p>
+    <p class="text-base font-bold font-countrySideTwo sm:visible md:visible lg:hidden xl:hidden">Le Compagnon du
+      Jardinier</p>
+  </ng-template>
+  <ng-template pTemplate="center">
+
+  </ng-template>
+  <ng-template pTemplate="end">
+
+    @if(globalStore.isAuthenticated())
+    {
+    <p-button icon="pi pi-user" iconPos="right" [label]="globalStore.name()" (onClick)="logout($event)" [rounded]="true"
+      [raised]="true" severity="info" class="hidden lg:flex xl:flex" />
+    <p-button icon="pi pi-user" iconPos="right" (onClick)="logout($event)" [rounded]="true" [raised]="true"
+      severity="success" class="sm:visible md:visible lg:hidden xl:hidden" />
+    <p-confirmPopup>
+      <ng-template pTemplate="content" let-message>
+        <div class="flex flex-col items-center w-full gap-4">
+          <i [class]="message.icon" class="text-6xl text-primary-500"></i>
+          <p>{{ message.message }}</p>
+        </div>
+      </ng-template>
+    </p-confirmPopup>
+    }
+    @else {
+    <p-button routerLink="/home/login" label="Se connecter" [raised]="true" [rounded]="true" iconPos='left'
+      icon="pi pi-link" severity="info" class="hidden lg:flex xl:flex" />
+    <p-button routerLink="/home/login" [text]="true" variant="text" [rounded]="true" icon="pi pi-link"
+      severity="success" class="sm:visible md:visible lg:hidden xl:hidden" />
+    }
+
+  </ng-template>
+</p-toolbar>

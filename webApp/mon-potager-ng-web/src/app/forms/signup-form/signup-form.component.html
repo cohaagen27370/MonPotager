@@ -1,0 +1,161 @@
+<h4 class="font-bold hidden sm:flex">Créer son compte</h4>
+<div class="flex justify-content-center md:hidden xl:hidden lg:hidden">
+  <h4 class="font-bold text-xl">Créer son compte</h4>
+</div>
+
+<form [formGroup]="formSignUp" (submit)="signup()">
+
+  <p-stepper [value]="1" [ariaPressed]="">
+    <p-step-list>
+      <p-step [value]="1" [disabled]="true">Choisir mes paramètres</p-step>
+      <p-step [value]="2" [disabled]="true">Choisir ma station météo</p-step>
+    </p-step-list>
+    <p-step-panels>
+      <p-step-panel [value]="2">
+        <ng-template #content let-activateCallback="activateCallback">
+          <lcdj-leaflet-map (onSelect)="selectStation($event)" />
+          <h4>Station sélectionnée : {{ selectedStation?.selectedStationName }}</h4>
+          <div class="flex flex-row justify-content-between">
+            <div class="flex flex-row pt-6 justify-end">
+              <p-button label="Précédent" class="mr-2" severity="secondary" icon="pi pi-arrow-left"
+                (onClick)="activateCallback(1)" />
+              <p-button [disabled]="!selectedStation" [loading]="isLoading" label="Créer mon compte"
+                icon="pi pi-arrow-right" iconPos="right" type="submit" />
+            </div>
+            <div class="flex flex-row pt-6 justify-end">
+              <p-button label="Trouver la plus proche de ma position" class="mr-2" severity="info"
+                icon="pi pi-map-marker" (onClick)="findNearest()" />
+            </div>
+          </div>
+        </ng-template>
+      </p-step-panel>
+      <p-step-panel [value]="1">
+        <ng-template #content let-activateCallback="activateCallback">
+          <div class="field">
+            <p-iftalabel>
+              <label for="name">Nom (ou pseudonyme)</label>
+              <input pInputText autocomplete="off" id="name" type="text" class="w-full" formControlName="formName">
+              @if(formEmail.dirty) {
+              @if(formEmail.hasError('required')) {
+              <small class="text-red-500">
+                Nom obligatoire.
+              </small>
+              }
+              }
+            </p-iftalabel>
+          </div>
+          <div class="field">
+            <p-iftalabel>
+              <label for="email">Email</label>
+              <input pInputText autocomplete="off" id="email" type="email" class="w-full" formControlName="formEmail">
+              @if(formEmail.dirty) {
+              @if(formEmail.hasError('required')) {
+              <small class="text-red-500">
+                Email obligatoire.
+              </small>
+              }
+              @if(formEmail.hasError('email')) {
+              <small class="text-red-500">
+                Entrer un email valide.
+              </small>
+              }
+              @if(formEmail.hasError('isEmailAlreadyExist')) {
+              <small class="text-red-500">
+                Cet email est déjà utilisé.
+              </small>
+              }
+              }
+            </p-iftalabel>
+          </div>
+          <div class="field">
+            <p-iftalabel>
+              <p-password fluid [toggleMask]="true" inputId="password" promptLabel="Entrez un mot de passe"
+                weakLabel='Faible' mediumLabel="Moyen" strongLabel="Fort" maxLength="15" class="w-full"
+                formControlName="formPassword" />
+              <label for="password">Mot de passe</label>
+            </p-iftalabel>
+            @if(formPassword.dirty) {
+            @if(formPassword.hasError('required')) {
+            <small class="text-red-500">
+              Mot de passe obligatoire.
+            </small>
+            }
+            @if(formPassword.hasError('maxlength')) {
+            <small class="text-red-500">
+              Au maximum 15 caractères.
+            </small>
+            }
+            @if(formPassword.hasError('minlength')) {
+            <small class="text-red-500">
+              Au moins 3 caractères.
+            </small>
+            }
+            }
+          </div>
+          <div class="field">
+            <p-iftalabel>
+              <input fluid pInputText autocomplete="off" id="confirmPassword" type="password"
+                formControlName="formConfirmPassword">
+              <label for="confirmPassword">Confimer le mot de passe</label>
+            </p-iftalabel>
+            @if(formConfirmPassword.dirty) {
+            @if(formConfirmPassword.hasError('required')) {
+            <small class="text-red-500">
+              Mot de passe obligatoire.
+            </small>
+            }
+            @if(formConfirmPassword.hasError('mustMatch')) {
+            <small class="text-red-500">
+              Les deux mots de passe doivent correspondre.
+            </small>
+            }
+            }
+          </div>
+
+          <div class="flex flex-row">
+            <img alt="captcha" [src]="'data:image/png;base64,' + store.captchaImage()" />
+            <p-button [loading]="isLoading" label="Générer un nouveau captcha" icon="pi pi-refresh" iconPos="top"
+              [raised]="true" severity="secondary" (onClick)="generateCaptchaAgain()" />
+          </div>
+          <br />
+
+          <div class="field">
+            <p-iftalabel>
+              <label for="captcha">Captcha</label>
+              <input fluid pInputText autocomplete="off" id="captcha" type="text" class="w-full"
+                formControlName="formCaptcha">
+              @if(formCaptcha.dirty) {
+              @if(formCaptcha.hasError('required')) {
+              <small class="text-red-500">
+                Captcha obligatoire.
+              </small>
+              }
+              @if(formCaptcha.hasError('isCaptchaNOk')) {
+              <small class="text-red-500">
+                Captcha invalide.
+              </small>
+              }
+              }
+            </p-iftalabel>
+          </div>
+
+          @if(showSignUpError) {
+          <div class="field">
+            <p-message severity="error" text="Email ou mot de passe erroné" />
+          </div>
+          }
+          @if(showConnectionError) {
+          <div class="field">
+            <p-message severity="error" text="Aucune connexion internet" />
+          </div>
+          }
+
+          <p-button [loading]="isLoading" styleClass="w-full md:w-5"
+            [disabled]="!formSignUp.dirty || (formSignUp.dirty && formSignUp.invalid)" label="Suivant"
+            icon="pi pi-arrow-right" iconPos="right" (onClick)="activateCallback(2)" />
+        </ng-template>
+      </p-step-panel>
+    </p-step-panels>
+  </p-stepper>
+
+</form>

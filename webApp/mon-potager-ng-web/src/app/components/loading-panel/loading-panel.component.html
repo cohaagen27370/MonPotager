@@ -1,0 +1,9 @@
+<p-dialog [(visible)]="visible" styleClass="w-6 max-w-20rem">
+  <ng-template #headless>
+      <div class="flex flex-column justify-content-center align-items-center">
+          <img src="assets/actions/loading.jpg" alt="loading" class="w-full my-5"/>
+          <h3> <p-progress-spinner strokeWidth="8" fill="transparent" animationDuration=".5s" [style]="{ width: '15px', height: '15px' }" /> Chargement ...</h3>
+      </div>
+  </ng-template>
+</p-dialog>
+<p-blockui [blocked]="visible" />

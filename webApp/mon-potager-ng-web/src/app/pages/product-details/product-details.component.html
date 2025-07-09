@@ -1,0 +1,181 @@
+<lcdj-loading-panel [visible]="store.isLoading()"></lcdj-loading-panel>
+
+<p-button label="Retour" icon="pi pi-arrow-circle-left" iconPos="left" [link]="true" (onClick)="goBack()" />
+<br /><br />
+
+@if(store.hasData()) {
+<div>
+
+  <div class="flex flex-row justify-content-start">
+    <p-image [src]="getProductImage()" [preview]="true" alt="Image" width="100" styleClass="img-border">
+      <ng-template #indicator>
+        <i class="pi pi-search"></i>
+      </ng-template>
+      <ng-template #preview let-style="style" let-previewCallback="previewCallback">
+        <img [src]="getProductFullImage()" alt="product" class="w-full" [style]="style" (click)="previewCallback()" />
+      </ng-template>
+    </p-image>
+    <div class="flex flex-column justify-content-start align-items-start">
+      <h2 class="ml-5 mb-1">{{ store.variant!()!.name }}</h2>
+      <h4 class="ml-5 mt-1">{{ store.variant!()!.familyName }}</h4>
+    </div>
+  </div>
+  @if( store.variant!()!.imageSource ) {
+    <h5><span>Source de la photo : </span>
+      <div class="flex flex-row justify-content-end mr-5" [innerHTML]="store.variant!()!.imageSource"></div>
+    </h5>
+    }
+
+  <p class="font-italic">"{{ store.variant!()!.description }} ..."</p>
+
+  @if( store.variant!()!.descriptionSource ) {
+    <div class="flex flex-row justify-content-end mr-5" [innerHTML]="store.variant!()!.descriptionSource"></div>
+  }
+
+  <div class="flex flex-column sm:flex-row justify-content-around">
+    <div class="mt-3 flex flex-row w-full justify-content-center">
+      <p-card header="Mois de semis/plantation/réalisation" class="w-full">
+        <table>
+          <tr>
+            <th>J</th>
+            <th>F</th>
+            <th>M</th>
+            <th>A</th>
+            <th>M</th>
+            <th>J</th>
+            <th>J</th>
+            <th>A</th>
+            <th>S</th>
+            <th>O</th>
+            <th>N</th>
+            <th>D</th>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.january" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.february" class="p-checkbox p-checkbox-lg ml-0" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.march" class="p-checkbox p-checkbox-lg ml-0" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.april" class="p-checkbox p-checkbox-lg ml-0" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.may" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.june" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.july" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.august" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.september" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.october" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.november" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.seeding!.december" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+          </tr>
+        </table>
+      </p-card>
+    </div>
+    <div class="xl:ml-3 ml-3 mt-3 flex flex-row w-full justify-content-center">
+      <p-card header="Mois de récolte" class="w-full">
+        <table>
+          <tr>
+            <th>J</th>
+            <th>F</th>
+            <th>M</th>
+            <th>A</th>
+            <th>M</th>
+            <th>J</th>
+            <th>J</th>
+            <th>A</th>
+            <th>S</th>
+            <th>O</th>
+            <th>N</th>
+            <th>D</th>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.january" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.february" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.march" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.april" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.may" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.june" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.july" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.august" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.september" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.october" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.november" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+            <td>
+              <input type="checkbox" disabled [checked]="store.variant!()!.harvesting!.december" class="p-checkbox p-checkbox-lg" pCheckbox size="large" />
+            </td>
+          </tr>
+        </table>
+      </p-card>
+    </div>
+  </div>
+  <br/><br/>
+  <p-iftalabel fluid class="w-full">
+      <input fluid readonly pInputText id="maturationDaysCount" [value]="store.variant!()!.minMaturationDaysCount + ' - ' + store.variant!()!.maxMaturationDaysCount" variant="filled" />
+      <label for="maturationDaysCount">Durée minimum de maturation (jours)</label>
+  </p-iftalabel>
+  <p-iftalabel fluid class="w-full mt-3">
+    <input fluid readonly pInputText id="tempGermination" [value]="store.variant!()!.germinationMinimalTemperature + ' - ' + store.variant!()!.germinationOptimaleTemperature" variant="filled" />
+    <label for="tempGermination">Température de germination (°C)</label>
+  </p-iftalabel>
+  <p-iftalabel fluid class="w-full mt-3">
+    <input fluid readonly pInputText id="dureeLevee" [value]="store.variant!()!.minimalRisingTime + ' - ' + store.variant!()!.maximumRisingTime" variant="filled" />
+    <label for="dureeLevee">Durée de levée (jours)</label>
+  </p-iftalabel>
+  <div class="mt-3 flex sm:flex-row flex-column w-full justify-content-center">
+    <p-iftalabel fluid class="w-full">
+      <input fluid readonly pInputText id="tempOptimal" [value]="store.variant!()!.idealGrowingTemperature" variant="filled" />
+      <label for="tempOptimal">Température optimale (°C)</label>
+    </p-iftalabel>
+    <p-iftalabel fluid class="w-full lg:mx-3 xl:mx-3 md:mx-3">
+      <input fluid readonly pInputText id="tempNoGrow" [value]="store.variant!()!.zeroVegetation" variant="filled" />
+      <label for="tempNoGrow">Température de non croissance (°C)</label>
+    </p-iftalabel>
+    <p-iftalabel fluid class="w-full">
+      <input fluid readonly pInputText id="sunshineDuration" [value]="store.variant!()!.sunshineDuration" variant="filled" />
+      <label for="sunshineDuration">Durée d'ensoleillement (heures)</label>
+    </p-iftalabel>
+  </div>
+</div>
+}

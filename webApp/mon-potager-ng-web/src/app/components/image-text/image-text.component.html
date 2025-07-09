@@ -1,0 +1,8 @@
+<div style="position: relative; display: inline-block;">
+  <img class="img-border" [width]="width()" [src]="getProductImage()">
+  @if(texte()) {
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 10px;">
+      <div><p>{{texte()}}</p></div>
+    </div>
+  }
+</div>

@@ -1,0 +1,19 @@
+<div class="flex flex-column h-screen">
+
+  <header class="sticky top-0 w-full shadow-6">
+    <lcdj-simple-tool-bar />
+  </header>
+
+  <div class="flex flex-row">
+    <main class="w-full flex flex-grow-1">
+      <article class="w-full">
+        <router-outlet class="w-full" />
+      </article>
+    </main>
+  </div>
+
+  <footer class="flex align-items-center justify-content-center" style="position: 'absolute'; bottom: 0">
+    &nbsp;
+  </footer>
+
+</div>

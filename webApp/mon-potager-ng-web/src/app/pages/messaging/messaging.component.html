@@ -1,0 +1,46 @@
+<lcdj-loading-panel [visible]="store.isLoading()"></lcdj-loading-panel>
+
+@if(isDesktop()) {
+<p-table [value]="store.messages()">
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <span class="text-xl font-bold">Evènements</span>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th id="event_image"></th>
+      <th id="event_content">Message</th>
+      <th id="event_date">
+        Date</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr [pSelectableRow]="product">
+      <td>
+        <img lcdj-image alt="event" [reference]="product.image" width="75" />
+      </td>
+      <td><span class="font-bold" [innerHTML]="product.content"></span></td>
+      <td>{{ product.creationDate | dateCustom:"dd/MM/yyyy"}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+}
+@else {
+<div class="grid">
+  @for(message of store.messages(); track message.id) {
+  <div class="lg:col-6 xl:col-6 sm:col-6 md:col-12 col-12">
+    <lcdj-message [message]="message" />
+  </div>
+  }
+</div>
+}
+
+@if(store.pageCount() > 1) {
+<div class="flex justify-content-center">
+  <p-paginator [first]="store.pageNumber() * store.pageSize()" [rows]="store.pageSize()"
+    [totalRecords]="store.totalCount()" (onPageChange)="onPageChange($event)" [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} - {last} sur {totalRecords}" [showPageLinks]="false"
+    [showFirstLastIcon]="true"></p-paginator>
+</div>
+}

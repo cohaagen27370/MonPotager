@@ -1,0 +1,100 @@
+<div class="flex flex-column md:flex-row justify-content-center md:mx-5">
+  <div class=" text-center">
+    <br /><br />
+    <img style="max-width: 100%;" src="assets/actions/Welcome.jpg" />
+
+    <p class="font-mcblossoms text-3xl">Bonjour amis jardiniers !</p>
+
+    <p class="font-mcblossoms text-xl">Bienvenue sur l'application de gestion du potager qui va vous faciliter la vie
+    </p>
+    <p class="font-mcblossoms text-xl">Fini le petit carnet pour noter les graines restantes dans les paquets ou encore
+    </p>
+    <p class="font-mcblossoms text-xl">la date de votre semis, ou de la dernière fois que vous avez fertilisé votre
+      culture.</p>
+    <p class="font-mcblossoms text-xl">Le compagnon du jardinier s'occupe de tout !</p>
+
+    <br />
+    <p>Si vous n'avez pas de compte, vous pouvez très vite en créer un, c'est entièrement gratuit !</p>
+
+    <br />
+
+    <div class="flex flex-row justify-content-around">
+      <p-button label="Je n'ai
+      pas encore de
+      compte" icon="pi pi-user-plus" variant="outlined" [raised]="true" [rounded]="true" severity="secondary"
+        (onClick)="navigateToSignup()" />
+      <p-button label="Je souhaite me connecter à l'application" icon="pi pi-sign-in" variant="outlined" [raised]="true"
+        [rounded]="true" severity="primary" (onClick)="navigateToLogin()" />
+    </div>
+    <br />
+    <br />
+    <h3>Nouveautés à venir et en cours (version en cours : 1.1.0)</h3>
+    <ul>
+      <li>Avril 2025 : Ajout d'un calendrier des semis (v1.1.0)</li>
+    </ul>
+
+    <br />
+    <h5>Captures d'écran de l'application</h5>
+
+    <div class="flex flex-column md:flex-row justify-content-between pt-5">
+      <p-image src="assets/captures/plantotheque.png" class="mr-5" [preview]="true" alt="Image" width="250">
+        <ng-template #indicator>
+          <i class="pi pi-search"></i>
+        </ng-template>
+        <ng-template #preview let-style="style" let-previewCallback="previewCallback">
+          <img src="assets/captures/plantotheque.png" alt="image" class="w-10" [style]="style"
+            (click)="previewCallback()" />
+        </ng-template>
+      </p-image>
+
+      <p-image src="assets/captures/stocks.png" class="mr-5" [preview]="true" alt="Image" width="250">
+        <ng-template #indicator>
+          <i class="pi pi-search"></i>
+        </ng-template>
+        <ng-template #preview let-style="style" let-previewCallback="previewCallback">
+          <img src="assets/captures/stocks.png" alt="image" class="w-10" [style]="style" (click)="previewCallback()" />
+        </ng-template>
+      </p-image>
+
+      <p-image src="assets/captures/cultures.png" class="mr-5" [preview]="true" alt="Image" width="250">
+        <ng-template #indicator>
+          <i class="pi pi-search"></i>
+        </ng-template>
+        <ng-template #preview let-style="style" let-previewCallback="previewCallback">
+          <img src="assets/captures/cultures.png" alt="image" class="w-10" [style]="style"
+            (click)="previewCallback()" />
+        </ng-template>
+      </p-image>
+
+    </div>
+
+    <br />
+    <h5>Tutoriels</h5>
+
+    <div class="flex flex-column md:flex-row justify-content-between">
+      <div>
+        <h5 class="text-overflow-ellipsis">Créer un nouveau compte et s'y connecter
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h5>
+        <video class="img-border" controls width="250">
+          <source src="assets/videos/CreateAccount.webm" type="video/webm">
+          Votre navigateur ne supporte pas la balise vidéo.
+        </video>
+      </div>
+
+      <div>
+        <h5 class="text-overflow-ellipsis">Rechercher une culture et alimenter mon stock</h5>
+        <video class="img-border" controls width="250">
+          <source src="assets/videos/AddStock.webm" type="video/webm">
+          Votre navigateur ne supporte pas la balise vidéo.
+        </video>
+      </div>
+      <div>
+        <h5>Lancer une nouvelle culture et ajouter des étapes</h5>
+        <video class="img-border" controls width="250">
+          <source src="assets/videos/AddNewStageOnFlow.webm" type="video/webm">
+          Votre navigateur ne supporte pas la balise vidéo.
+        </video>
+      </div>
+    </div>
+  </div>
+</div>

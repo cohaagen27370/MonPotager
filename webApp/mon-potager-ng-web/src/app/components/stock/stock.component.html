@@ -1,0 +1,19 @@
+<div class="shadow-2 border-radius-10 flex justify-content-left over" (click)="viewDetails()">
+  <img alt="variety" lcdj-image [reference]="model().varietyImage" width="100" class="border-radius-left-10" priority
+    placeholder />
+  <div class="flex flex-row w-full">
+    <div class="flex flex-column flex-grow-1">
+      <div class="pt-5 pb-5 pl-1 flex flex-column justify-content-left align-items-left">
+        <span class="text-2xl font-semibold">{{ model().productName }}</span>
+        <span class="text-sm font-bold text-overflow-ellipsis">{{ model().productVariety }}</span>
+      </div>
+      <small class="text-xs font-semibold">Jusqu'au {{ model().expirationDate | date:'dd/MM/yyyy' }}</small>
+    </div>
+    <span
+      class="text-6xl lg:text-7xl xl:text-7xl font-bold flex-grow-1 justify-content-right align-content-center">{{model().seedQuantity}}
+    </span>
+    <p-button icon="pi pi-info" severity="secondary" variant="text" size="large" (onClick)="viewDetailsProduct(model().productId)" />
+
+
+  </div>
+</div>

@@ -1,0 +1,50 @@
+<div class="w-full flex flex-row justify-content-around xs:justify-content-between">
+  <span class="font-semibold">Achat : <span class="text-xl">{{ package().purchaseDate | date: 'dd/MM/yyyy'
+      }}</span></span>
+  <span class="font-semibold">Péremption : <span class="text-xl">{{ package().expirationDate | date: 'dd/MM/yyyy'
+      }}</span></span>
+</div>
+<br /><br />
+
+<div class="w-full flex flex-column justify-content-start align-items-center row-gap-6">
+
+  <p-selectbutton [options]="quantityList" [(ngModel)]="quantity" optionValue="quantity">
+    <ng-template #item let-item>
+      <fa-icon [icon]="item.icon" size="xl" [rotate]="270"></fa-icon>
+    </ng-template>
+  </p-selectbutton>
+
+  <div class="flex flex-row justify-content-center w-4">
+    <span class="text-4xl font-bold">{{ quantity | fraction }}</span>
+  </div>
+</div>
+<br />
+<small class="text-xs text-center w-full flex flex-row justify-content-center">Valeur restante après
+  semis/plantation</small>
+<br /><br />
+
+@if(category() && category() != 3) {
+<br />
+
+@for(stage of store.startsSteps(); track stage.id) {
+@if(stage.id) {
+<div class="flex mb-2 align-items-center justify-content-left border-radius-10" (click)="stageId = stage.id"
+  [ngClass]="{'shadow-1': stageId != stage.id, 'shadow-5': (stageId == stage.id), 'choose-item':(stageId == stage.id)}">
+  <p-radiobutton [(ngModel)]="stageId" name="stage" [value]="stage.id" [ngStyle]="{'display':'none'}" />&nbsp;
+  <p-avatar [image]="imgBaseUrl + stage.image + '.jpg'" class="mr-2 img-border" shape="square" size="xlarge" />
+  <div class="flex flex-column">
+    <span class="font-bold text-lg capitalize">{{ stage.label }}</span>
+  </div>
+</div>
+}
+}
+
+<br />
+}
+
+<div class="flex flex-column gap-3 lg:flex-row justify-content-center">
+  <p-button styleClass="flex-grow-1 w-full" [loading]="store.isLoading()" severity="primary" icon="pi pi-plus-circle"
+    [rounded]="true" [raised]="true" label="Créer une nouvelle culture" (onClick)="savePackage()" />
+  <p-button styleClass="flex-grow-1 w-full" [loading]="store.isLoading()" severity="secondary" icon="pi pi-save"
+    [rounded]="true" [raised]="true" label="Modifier juste la quantité restante" (onClick)="saveOnlyQuality()" />
+</div>

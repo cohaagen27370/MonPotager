@@ -1,0 +1,111 @@
+<div class="overflow-x-scroll overflow-y-hidden" style="min-width: 700px;max-width: 1560px;">
+
+  <div class="w-full">
+    <div style="width: 8.33%;float: left;font-weight: bold;" class="text-center">
+      Janv
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Févr
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Mars
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Avril
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Mai
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Juin
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Juil
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Aout
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Sept
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Oct
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Nov
+    </div>
+    <div style="width: 8.33%; float: left;font-weight: bold;" class="text-center">
+      Déc
+    </div>
+  </div>
+  <br />
+
+  @if(calendar && calendar.scenario) {
+  @for(scenario of calendar.scenario; track scenario.averageTemperatureInStats) {
+  <div class="w-full h-3rem border-top-1 border-blue-100 border-top-solid">
+
+    @for(month of scenario.monthTab; track month; let index = $index) {
+
+    @if (month.isActive) {
+    <div [pTooltip]="content" tooltipPosition="bottom"
+      [ngClass]="{'bg-green-500': !month.isIndoor , 'bg-blue-500': month.isIndoor, 'border-round-left' : (index + 1) == scenario!.seedingMonth!, 'border-round-right' : (index + 1) == scenario!.harvestMonth! }"
+      class="w-1 h-3rem shadow-3" style="float: left;">
+
+      <div class="flex flex-row">
+        <div></div>
+        <div>
+          @if ((index + 1) == scenario!.seedingMonth!) {
+
+          @if(scenario.startingIndoor) {
+          <span class="relative z-5 overflow-visible white-space-nowrap text-white-alpha-90 text-center mx-2"><i
+              class="pi pi-home"></i>&nbsp;Levée à l'intérieur : {{
+            scenario.risingDuration }} jours</span><br />
+          <span class="relative z-5 overflow-visible white-space-nowrap text-white-alpha-90 text-center mx-2">Maturation
+            :
+            {{
+            scenario.maturationDuration }}
+            jours</span>
+          }
+          @else {
+          <span class="relative z-5 overflow-visible white-space-nowrap text-white-alpha-90 text-center mx-2"><i
+              class="pi pi-image"></i>&nbsp;Levée à l'extérieur :
+            {{
+            scenario.risingDuration }} jours</span><br />
+          <span class="relative z-5 overflow-visible white-space-nowrap text-white-alpha-90 text-center mx-2">Maturation
+            :
+            {{
+            scenario.maturationDuration }}
+            jours</span>
+          }
+          }
+          @else {
+          &nbsp;
+          }
+        </div>
+      </div>
+
+
+
+    </div>
+    }
+    @if(!month.isActive) {
+    <div class="w-1 h-3rem" style="float: left;">&nbsp;</div>
+    }
+
+    }
+
+  </div>
+
+  <ng-template #content class="w-5">
+    <h4>Températures</h4>
+    <span>Moyenne : {{ scenario.averageTemperatureInStats }}°</span><br />
+    <span>Germination : {{ calendar.minGerminationTemperature }}°</span><br />
+    <span>La plus basse : {{ scenario.minTemperatureInStats }}°</span><br />
+    <span>La plus haute : {{ scenario.maxTemperatureInStats }}°</span><br />
+  </ng-template>
+
+
+  }
+  }
+
+</div>

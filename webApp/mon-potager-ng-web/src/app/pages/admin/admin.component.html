@@ -1,0 +1,115 @@
+<p-tabs value="0">
+  <p-tablist>
+    <p-tab value="0">Familles</p-tab>
+    <p-tab value="1">Produits</p-tab>
+  </p-tablist>
+  <p-tabpanels>
+    <p-tabpanel value="0">
+      <div class="flex flex-row justify-content-between w-12">
+        <div class="w-12">
+
+          @if(store.isLoading()) {
+          <div>
+            <p-skeleton width="w-full" height="90px" styleClass="m-2" />
+            <p-skeleton width="w-full" height="90px" styleClass="m-2" />
+            <p-skeleton width="w-full" height="90px" styleClass="m-2" />
+          </div>
+          }
+          @else {
+          <p-table [value]="store.families()" dataKey="id" (onRowSelect)="selectFamily($event)" selectionMode="single">
+            <ng-template #caption>
+              <div class="flex flex-row justify-content-end">
+                <span class="text-xl font-bold"></span>
+                <p-button class="mr-2" icon="pi pi-refresh" (onClick)="store.getAllFamilies()" rounded raised />
+                <p-button icon="pi pi-plus-circle" rounded raised severity="info" (onClick)="newFamily()" />
+              </div>
+            </ng-template>
+            <ng-template #header>
+              <tr>
+                <th id="family_image"></th>
+                <th id="family_name">Nom</th>
+                <th id="delete"></th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-product>
+              <tr [pSelectableRow]="product">
+                <td><img priority alt="family" lcdj-image [reference]="product.image" width="75" [noCache]="true" />
+                </td>
+                <td>{{ product.name }}</td>
+                <td>
+                  <p-button class="ml-2" type="button" label="Supprimer" icon="pi pi-plus-circle" iconPos="top"
+                    variant="text" [raised]="true" severity="danger" (onClick)="deleteFamily(product.id)" />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          @if(store.paginationFamilies().pageCount) {
+          <div class="flex justify-content-center">
+            <p-paginator (onPageChange)="onPageFamilyChange($event)"
+              [first]="store.paginationFamilies().pageNumber * store.paginationFamilies().pageSize"
+              [rows]="store.paginationFamilies().pageSize" [showFirstLastIcon]="true"
+              [totalRecords]="store.paginationFamilies().totalCount" [showCurrentPageReport]="true" />
+          </div>
+          }
+          }
+        </div>
+        <p-dialog [header]="store.selectedFamily().id ? 'Modifier une famille' : 'Ajouter une nouvelle famille'"
+          [modal]="true" [(visible)]="showFamilyModification">
+          <lcdj-family-form [categories]="store.categories()" [family]="store.selectedFamily().current"
+            (onSubmit)="saveFamily($event)" [isLoading]="store.isLoading()" />
+        </p-dialog>
+      </div>
+    </p-tabpanel>
+    <p-tabpanel value="1">
+      <div class="flex flex-row justify-content-between w-12">
+        <div class='w-12'>
+          <p-table [value]="store.products()" dataKey="id" (onRowSelect)="selectProduct($event)" selectionMode="single">
+            <ng-template #caption>
+              <div class="flex flex-row justify-content-end">
+                <span class="text-xl font-bold"></span>
+                <p-button icon="pi pi-refresh" (onClick)="store.getAllProducts()" rounded raised />
+                <p-button class="ml-2" icon="pi pi-plus-circle" rounded raised severity="info"
+                  (onClick)="newVariant()" />
+              </div>
+            </ng-template>
+            <ng-template #header>
+              <tr>
+                <th id="product_image"></th>
+                <th id="product_name">Nom</th>
+                <th id="product_name">Variété</th>
+                <th id="product_category"></th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-product>
+              <tr [pSelectableRow]="product">
+                <td><img alt="product" lcdj-image [reference]="product.image" width="75" /></td>
+                <td>{{ product.familyName }}</td>
+                <td class="font-bold">{{ product.name }}</td>
+                <td>
+                  <fa-icon [icon]="getIcon(product.categoryImage)" size="lg" />
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          @if(store.paginationProducts().pageCount) {
+          <div class="flex justify-content-center">
+            <p-paginator (onPageChange)="onPageProductChange($event)"
+              [first]="store.paginationProducts().pageNumber * store.paginationProducts().pageSize"
+              [rows]="store.paginationProducts().pageSize" [showFirstLastIcon]="true"
+              [totalRecords]="store.paginationProducts().totalCount" [showCurrentPageReport]="true"></p-paginator>
+          </div>
+
+          }
+        </div>
+        <p-dialog [header]="store.selectedProduct().id ? 'Modifier un produit' : 'Ajouter un nouveau produit'"
+          [modal]="true" [(visible)]="showVariantModification">
+          <lcdj-variant-form [families]="store.allFamilies()" [variant]="store.selectedProduct().current"
+            (onSubmit)="saveVariant($event)" [isLoading]="store.isLoading()" />
+        </p-dialog>
+
+      </div>
+    </p-tabpanel>
+  </p-tabpanels>
+</p-tabs>
+
+<p-toast position="bottom-center" [autoZIndex]="true" [life]="2000" />

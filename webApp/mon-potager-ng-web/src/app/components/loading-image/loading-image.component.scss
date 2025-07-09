@@ -1,0 +1,44 @@
+.transp-100 {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 150px;
+    min-height: 150px;
+    height: fit-content;
+    position: relative;
+  }
+
+  .transp-200 {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 200px;
+    min-height: 200px;
+    height: fit-content;
+    position: relative;
+  }
+
+  .bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .no-border {
+    border : none;
+  }
+
+  .padding-none {
+    padding : 0;
+  }
+
+  .hand {
+    cursor: pointer;
+  }
+
+  .progression {
+    height: 2px;
+    width: 50%;
+    margin:auto
+  }

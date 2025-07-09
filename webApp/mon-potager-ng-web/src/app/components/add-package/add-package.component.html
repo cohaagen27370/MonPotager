@@ -1,0 +1,26 @@
+@if(product()) {
+<div class="shadow-2 border-radius-10 flex justify-content-left">
+  <img alt="product" lcdj-image [reference]="product().image" class="border-radius-left-10" priority placeholder />
+
+  <div class="flex flex-row justify-content-between w-full">
+    <div class="pt-5 pb-5 pl-1 flex flex-column">
+      <span class="text-2xl font-semibold">{{ product().name }}</span>
+      <span class="text-sm font-bold">{{ product().variety }}</span>
+    </div>
+  </div>
+</div>
+
+<br />
+<div class="flex flex-column justify-content-center align-items-center">
+  <p class="font-semibold">Date d'achat</p>
+  <p-datepicker id="dateEvent" [maxDate]="now" [(ngModel)]="buyingDate" [inline]="true" />
+  <p class="font-semibold">Date de péremption</p>
+  <p-datepicker id="dateEvent" [minDate]="now" [(ngModel)]="expirationDate" [inline]="true" />
+  <br />
+</div>
+<br />
+<div class="flex flex-column justify-content-center align-items-center">
+  <p-button label="Ajouter le paquet" icon="pi pi-plus" iconPos="top" class="flex-grow-1" (onClick)="AddPackage()" />
+</div>
+
+}

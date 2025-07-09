@@ -1,0 +1,82 @@
+<lcdj-loading-panel [visible]="store.isLoading()"></lcdj-loading-panel>
+
+<div class="w-full flex justify-content-around lg:justify-content-between xl:justify-content-between flex-wrap">
+  <p-datepicker [(ngModel)]="currentYear" view="year" dateFormat="yy" class="w-4rem" [maxDate]="now"
+    [readonlyInput]="true" />
+  <p-togglebutton [(ngModel)]="harvested" onLabel="Récolté" offLabel="Non récolté" styleClass="w-9rem" />
+</div>
+<br />
+
+<p-drawer [(visible)]="showSteps" header="Histoire" styleClass="sm:w-full md:w-6 lg:w-6 xl:w-6">
+  <lcdj-flow-steps [flowId]="selectedFlowId()" (onAddStep)="showAddSteps = true" />
+</p-drawer>
+
+<p-drawer [(visible)]="showAddSteps" header="Ajouter une étape" styleClass="sm:w-full md:w-6 lg:w-6 xl:w-6">
+  <lcdj-add-flow [flowId]="selectedFlowId()" (onStepAdd)="showAddSteps = false" />
+</p-drawer>
+
+@if (store.hasData()) {
+
+@if(isDesktop()) {
+<p-table [value]="store.flows()" dataKey="id" (onRowSelect)="selectRow($event)" selectionMode="single">
+  <ng-template #caption>
+    <div class="flex items-center justify-between">
+      <span class="text-xl font-bold">Cultures en cours</span>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th id="product_image"></th>
+      <th id="product_name">Nom</th>
+      <th id="current_progress_date">
+        Date</th>
+      <th id="current_progress">Etape</th>
+      <th id="estimated_harvest">
+        Récolte estimée</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr [pSelectableRow]="product">
+      <td>
+        <img lcdj-image alt="product" [reference]="product.image" width="75" />
+      </td>
+      <td><span class="font-bold">{{ product.name }}</span>&nbsp;<small>{{ product.variety }}</small></td>
+      <td>{{ product.startDate | dateCustom:" dd/MM/yyyy"}}</td>
+      <td>
+        <lcdj-image-text [reference]="product.startStage?.image" [texte]="product.startStage.label" [width]="75" />
+      </td>
+      <td>{{ product.expectedHarvestDate | dateCustom:"dd/MM/yyyy" }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+}
+@else {
+
+<div class="grid">
+  @for(item of store.flows() ; track item.id; let first = $first) {
+  <div class="lg:col-12 xl:col-6 sm:col-12 md:col-12 col-12" (click)="selectFlow(item.id)">
+    <app-flow [model]="item" />
+  </div>
+  }
+</div>
+}
+}
+@else {
+  <div class="flex justify-content-center w-full">
+    <div class="flex flex-column justify-content-center align-items-center w-6 max-w-20rem text-center">
+      <img src="assets/actions/nothing.jpg" class="img-border" alt="loading" class="w-full my-5"/>
+      <h3>Aucune culture en cours</h3>
+      <a routerLink="/app/stocks"><small>Créez en depuis vos graines en stock</small></a>
+    </div>
+  </div>
+}
+
+
+@if(store.pageCount() > 1) {
+<div class="flex justify-content-center">
+  <p-paginator [first]="store.pageNumber() * store.pageSize()" [rows]="store.pageSize()"
+    [totalRecords]="store.totalCount()" (onPageChange)="onPageChange($event)" [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} - {last} sur {totalRecords}" [showPageLinks]="false"
+    [showFirstLastIcon]="true"></p-paginator>
+</div>
+}
